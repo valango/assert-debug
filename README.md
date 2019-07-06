@@ -77,16 +77,15 @@ I suggest to put the following code snippet into `lib/assert.js` or alike in you
 instead of requiring `assert-debug` directly:
 
 ```javascript
-if (process.env.NODE_ENV !== 'production') {
-  exports = module.exports = require('assert-debug')
+exports = module.exports = require('assert-debug')
 
+if (exports.eventType) {
   exports.preventThrows = false
 
   process.on(exports.eventType, (error, cancel) => {
-    if (exports.preventThrows) cancel()     //  A nice place for debugger breakpoint!
+    //  A nice place for debugger breakpoint!
+    if (exports.preventThrows) cancel()
   })
-} else {
-  module.exports = require('assert')
 }
 ```
 
