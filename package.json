@@ -1,6 +1,6 @@
 {
   "name": "assert-debug",
-  "version": "1.0.2-0",
+  "version": "1.0.3-0",
   "description": "Lightweight wrapper around NodeJS assert so you can set breakpoints to assertion while debugging. ",
   "keywords": [
     "node",
