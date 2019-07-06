@@ -1,12 +1,10 @@
 language: node_js
-
 node_js:
   - "10"
-  - "9"
   - "8"
 
-script:
-  - "npm test"
-
+# script:
+#  - "npm test"
+#
 # after_script:
 #  - "test -e ./reports/lcov.info && npm install coveralls^2.11.2 && cat ./reports/lcov.info | coveralls"
