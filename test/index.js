@@ -10,7 +10,7 @@
 'use strict'
 
 const { expect } = require('chai')
-const assert     = require('./assert')
+const assert     = require('../index')
 const E          = assert.AssertionError
 const COUNT      = 9      //  Number of cases in all()
 

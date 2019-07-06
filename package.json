@@ -4,8 +4,9 @@
   "description": "Lightwweight wrapper around NodeJS assert so you can set breakpoints to assertion while debugging. ",
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf .nyc-output node_modules reports",
     "lint": "eslint --ext .js . test",
-    "test": "NODE_ENV=test nyc --nycrc-path='.nyc' mocha test/*.js"
+    "test": "NODE_ENV=test nyc mocha test/*.js"
   },
   "keywords": [
     "node",
@@ -24,7 +25,8 @@
     "babel-eslint": "^10.0.2",
     "chai": "^4.2.0",
     "mocha": "^6.1.4",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "rimraf": "^2.6.3"
   },
   "dependencies": {
     "eslint": "^6.0.1"
