@@ -1,7 +1,12 @@
 language: node_js
+
 node_js:
-  - 8.0.0
+  - "10"
+  - "9"
+  - "8"
+
 script:
-  - "npm run-script test"
-after_script:
-  - "test -e ./reports/lcov.info && npm install coveralls^2.11.2 && cat ./reports/lcov.info | coveralls"
+  - "npm test"
+
+# after_script:
+#  - "test -e ./reports/lcov.info && npm install coveralls^2.11.2 && cat ./reports/lcov.info | coveralls"
