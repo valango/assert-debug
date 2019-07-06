@@ -1,13 +1,7 @@
 {
   "name": "assert-debug",
   "version": "1.0.0",
-  "description": "Lightwweight wrapper around NodeJS assert so you can set breakpoints to assertion while debugging. ",
-  "main": "index.js",
-  "scripts": {
-    "clean": "rimraf .nyc-output node_modules reports",
-    "lint": "eslint --ext .js . test",
-    "test": "NODE_ENV=test nyc mocha test/*.js"
-  },
+  "description": "Lightweight wrapper around NodeJS assert so you can set breakpoints to assertion while debugging. ",
   "keywords": [
     "node",
     "debug",
@@ -21,16 +15,30 @@
   ],
   "author": "",
   "license": "ISC",
+  "main": "index.js",
+  "directories": {
+    "lib": ".",
+    "test": "test"
+  },
+  "engines": {
+    "node": ">= 8.0.0",
+    "npm": ">= 5.6.0",
+    "yarn": ">= 1.6.0"
+  },
+  "scripts": {
+    "clean": "rimraf .nyc-output node_modules reports",
+    "lint": "eslint --ext .js . test",
+    "test": "NODE_ENV=test nyc mocha test/*.js"
+  },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
     "chai": "^4.2.0",
+    "eslint": "^6.0.1",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
     "rimraf": "^2.6.3"
   },
-  "dependencies": {
-    "eslint": "^6.0.1"
-  },
+  "dependencies": {},
   "nyc": {
     "all": true,
     "check-coverage": true,
