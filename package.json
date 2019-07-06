@@ -28,6 +28,9 @@
     "name": "Villem Alango",
     "email": "villem.alango@gmail.com"
   },
+  "bugs": {
+    "url": "https://github.com/valango/assert-debug/issues"
+  },
   "homepage": "https://github.com/valango/assert-debug",
   "repository": {
     "type": "git",

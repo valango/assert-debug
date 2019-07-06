@@ -1,6 +1,7 @@
-# assert-debug
+# assert-debug [![Build Status](https://travis-ci.org/valango/assert-debug.svg?branch=master)](https://travis-ci.org/valango/assert-debug) [![Coverage Status](https://coveralls.io/repos/valango/assert-debug/badge.svg?branch=master&service=github)](https://coveralls.io/github/valango/assert-debug?branch=master)
 
-**`assert-debug`** helps you in spotting seemingly random assertion failures while debugging.
+
+**`assert-debug`** helps to trace down the actual cause behind seemingly random assertion.
 
 ## When might you need it?
 Your code may interact with different databases and even with some resources you can't control.
@@ -20,9 +21,9 @@ you can't inspect the local variables. You have no idea of how to repeat this fa
 You can expect a long night full of relentless experimenting ahead of you.
 
 ## What it does?
-**`assert-debug`** module exports all the stuff from original NodeJS assert
-built-in package, with all assertion methods wrapped into try-catch blocks.
-When any of those assertions fire, a global event is fired.
+**`assert-debug`** module exports all the stuff from original NodeJS `assert`
+built-in package, with all assertion methods wrapped into _`try-catch`_ blocks.
+Before any assertion actually _throw_, a global event is fired.
 
 By setting up an event handler, yo will receive the AssertionError object
 before it is actually thrown. You can even prevent it from being thrown.
@@ -47,20 +48,19 @@ const trap = (error, cancel) => {
 process.on(assert.eventType, trap)
 
 //  Anywhere in your app...
-assert.ok(someCondition)  //  ...or whatever standard asserion method.
+assert.ok(someCondition)  //  ...or whatever standard assertion method.
 
 ```
 ### API
 **`assert-debug`** module exports exactly the same API as
 [original `assert`](https://nodejs.org/dist/latest-v10.x/docs/api/assert.html).
-Additionally, it exports eventType property which is originally set to `"TrappedAssertion"`.
+Additionally, it exports eventType property which is originally set to **`"TrappedAssertion"`**.
 You can assign a different value to change the event to be used. Setting it to falsey value
 disables the whole trapping altogether. The change affects all assertions happening after it.
 
 Such a super-smart fiddling is rarely needed and if you really want a different event type,
-you can declare NODE_ASSERTION_EVENT environment variable.
+you can declare **`NODE_ASSERTION_EVENT`** environment variable.
 
-<a name="style">Depending on your personal style</a>, you can share `assert-debug` between code modules
+<a name="style">Depending on your **personal style**</a>, you can share `assert-debug` between code modules
 via dependency injection, via global namespace or some other way. Maybe you want to use
 native `assert` in production code - maybe not.
-
