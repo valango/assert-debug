@@ -64,3 +64,7 @@ you can declare **`NODE_ASSERTION_EVENT`** environment variable.
 <a name="style">Depending on your **personal style**</a>, you can share `assert-debug` between code modules
 via dependency injection, via global namespace or some other way. Maybe you want to use
 native `assert` in production code - maybe not.
+
+### Feedback
+You are more than welcome to share your thoughts and criticism.
+Bugs and wishes [here](https://github.com/valango/assert-debug/issues), please.
