@@ -9,47 +9,55 @@
  */
 'use strict'
 
-const original = require('assert')
+let assert = require('assert')
+let strict = assert.strict
+
+const AssertionError = assert.AssertionError
+//  Some stuff works differently before v10.
+const nodeMajor      = 1 * process.version.substring(1).split('.')[0]
 
 //  Global event that will be emitted every time when assertion throws.
 //  Parameters: errorInstance, cancelFunction.
-const eventType = process.env.NODE_ASSERTION_EVENT === undefined
-  ? 'TrappedAssertion' : process.env.NODE_ASSERTION_EVENT
+let eventType
 
-const wrap = (obj, fn) => {
-  return (...args) => {
-    try {
-      return fn.apply(obj, args)
-    } catch (error) {
-      if (eventType && error instanceof original.AssertionError) {
-        let isCanceled = false
-        process.emit(assert.eventType, error, () => (isCanceled = true))
-        if (isCanceled) return
+if (process.env.NODE_ENV !== 'production') {
+  eventType = process.env.NODE_ASSERTION_EVENT === undefined
+    ? 'BeforeAssertionIsThrown' : process.env.NODE_ASSERTION_EVENT
+
+  const wrap = (obj, fn) => {
+    return (...args) => {
+      try {
+        return fn.apply(obj, args)
+      } catch (error) {
+        if (eventType && (nodeMajor < 10 || error instanceof AssertionError)) {
+          let isCanceled = false
+          process.emit(assert.eventType, error, () => (isCanceled = true))
+          if (isCanceled) return
+        }
+        throw error
       }
-      throw error
     }
   }
-}
 
-const wrapAll = (obj, method) => {
-  const wrappedFn = wrap(obj, method)
+  const wrapAll = (obj, method) => {
+    const wrappedFn = wrap(obj, method)
 
-  for (const key of Object.keys(obj)) {
-    let v = obj[key]
+    for (const key of Object.keys(obj)) {
+      let v = obj[key]
 
-    if (v instanceof Function && key !== 'strict' && key !== 'AssertionError') {
-      v = key === 'ok' ? wrappedFn : wrap(obj, v)
+      if (v instanceof Function && key !== 'strict' && key !== 'AssertionError') {
+        v = key === 'ok' ? wrappedFn : wrap(obj, v)
+      }
+      wrappedFn[key] = v
     }
-    wrappedFn[key] = v
+    return wrappedFn
   }
-  return wrappedFn
+  strict = strict && wrapAll(strict, strict)  //  NodeJs < v.9.x does not support `strict`.
+  assert = wrapAll(assert, assert)
 }
 
-const strict     = wrapAll(original.strict, original.strict)
-const assert     = wrapAll(original, original)
-assert.strict    = strict
+exports = module.exports = assert
 
-//  Clearing this property will disable event trapping.
-assert.eventType = eventType
-
-module.exports = assert
+exports.eventType = eventType       //  Clearing this property will disable event trapping.
+exports.strict = strict || assert   //  Upwards compatibility.
+exports.nodeMajor = nodeMajor       //  Yet another bonus... :)

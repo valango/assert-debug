@@ -51,20 +51,53 @@ process.on(assert.eventType, trap)
 assert.ok(someCondition)  //  ...or whatever standard assertion method.
 
 ```
+To get better idea, see `examples/` directory.
 ### API
 **`assert-debug`** module exports exactly the same API as
-[original `assert`](https://nodejs.org/dist/latest-v10.x/docs/api/assert.html).
-Additionally, it exports eventType property which is originally set to **`"TrappedAssertion"`**.
-You can assign a different value to change the event to be used. Setting it to falsey value
+[original `assert`](https://nodejs.org/dist/latest-v10.x/docs/api/assert.html), plus:
+
+* **`nodeMajor`**`: number` - NodeJs semver major number as integer.
+* **`eventType`**`: string` - originally set to **`"BeforeAssertionIsThrown"`**.
+You can assign a different value to change the event to be used. Setting it to _falsey_ value
 disables the whole trapping altogether. The change affects all assertions happening after it.
 
 Such a super-smart fiddling is rarely needed and if you really want a different event type,
 you can declare **`NODE_ASSERTION_EVENT`** environment variable.
 
-<a name="style">Depending on your **personal style**</a>, you can share `assert-debug` between code modules
-via dependency injection, via global namespace or some other way. Maybe you want to use
-native `assert` in production code - maybe not.
+There is an _upwards-compatibility **bonus**_: new nodeJs documentation promotes using this package,
+but it was still missing in node v8 - but _`assert.strict`_ exports strict too, so your v10 code won't
+crash on v8 because of the _strict_ thing.
 
-### Feedback
+### Code patterns
+<a name="style">Depending on your **personal style**</a>, you can share `assert-debug` between code modules
+by just requiring it instead of `assert` or via dependency injection, via global namespace or some other way.
+Maybe you want to use native `assert` in production code - or maybe not.
+
+I suggest to put the following code snippet into `lib/assert.js` or alike in your project and _require_ this
+instead of requiring `assert-debug` directly:
+
+```javascript
+if (process.env.NODE_ENV !== 'production') {
+  exports = module.exports = require('assert-debug')
+
+  exports.preventThrows = false
+
+  process.on(exports.eventType, (error, cancel) => {
+    if (exports.preventThrows) cancel()     //  A nice place for debugger breakpoint!
+  })
+} else {
+  module.exports = require('assert')
+}
+```
+
+## Changes
+### v1.1
+1. In **_production mode_**, `assert-debug` does not change native assert behavior,
+but it still adds _`nodeMajor`_ and _`strict`_ (if needed).
+1. _`eventType`_ is not exported in **_production mode_**.
+1. _`eventType`_ default is changed from `"TrappedAssertion"` to `"BeforeAssertionIsThrown"`.
+1. Test are refactored to work correctly with NodeJs v8.
+
+## Feedback
 You are more than welcome to share your thoughts and criticism.
 Bugs and wishes [here](https://github.com/valango/assert-debug/issues), please.
