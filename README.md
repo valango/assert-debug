@@ -25,15 +25,17 @@ You can expect a long night full of relentless experimenting ahead of you.
 built-in package, with all assertion methods wrapped into _`try-catch`_ blocks.
 Before any assertion actually _throw_, a global event is fired.
 
-By setting up an event handler, yo will receive the AssertionError object
+Having handler set up, you will receive the AssertionError object
 before it is actually thrown. You can even prevent it from being thrown.
-But most importantly, by setting up a debugger breakpoint inside your handler,
+But most importantly, by having set a debugger breakpoint inside your handler,
 you will get access to all dynamic context that led to this assertion!
 
 ## Usage
 ### Installation
    `npm i -S assert-debug`
+   
    or
+   
    `yarn add -S assert-debug`
    
 Use of -S or -D option depends on your [intentions and personal style](#style).
@@ -51,7 +53,7 @@ process.on(assert.eventType, trap)
 assert.ok(someCondition)  //  ...or whatever standard assertion method.
 
 ```
-To get better idea, see `examples/` directory.
+To get better idea, see [`example/`](https://github.com/valango/assert-debug/tree/master/example) directory.
 ### API
 **`assert-debug`** module exports exactly the same API as
 [original `assert`](https://nodejs.org/dist/latest-v10.x/docs/api/assert.html), plus:
