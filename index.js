@@ -13,7 +13,8 @@ const original = require('assert')
 
 //  Global event that will be emitted every time when assertion throws.
 //  Parameters: errorInstance, cancelFunction.
-const eventType = process.env.NODE_ASSERTION_EVENT || 'TrappedAssertion'
+const eventType = process.env.NODE_ASSERTION_EVENT === undefined
+  ? 'TrappedAssertion' : process.env.NODE_ASSERTION_EVENT
 
 const wrap = (obj, fn) => {
   return (...args) => {

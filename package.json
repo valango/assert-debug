@@ -13,7 +13,6 @@
     "wrapper",
     "lightweight"
   ],
-  "author": "",
   "license": "ISC",
   "main": "index.js",
   "directories": {
@@ -24,6 +23,15 @@
     "node": ">= 8.0.0",
     "npm": ">= 5.6.0",
     "yarn": ">= 1.6.0"
+  },
+  "author": {
+    "name": "Villem Alango",
+    "email": "villem.alango@gmail.com"
+  },
+  "homepage": "https://github.com/valango/assert-debug",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/valango/assert-debug.git"
   },
   "scripts": {
     "clean": "rimraf .nyc-output node_modules reports",
