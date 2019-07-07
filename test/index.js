@@ -13,6 +13,7 @@ const { expect } = require('chai')
 let assert       = require('../index')
 const path       = require('path')
 const E          = assert.AssertionError
+const IS_RO      = 'Property is read-only'
 const COUNT      = 9      //  Number of cases in all()
 
 const targetPath = path.join(__dirname, '../index.js')
@@ -60,10 +61,12 @@ const tStat_ = (ns, withEvents) => {
   expect(typeof o.AssertionError).to.equal('function', ns + '.AssertionError')
   expect(o.strict instanceof Function).to.equal(true, ns + '.strict')
   expect(o.nodeMajor).to.equal(nodeMajor, ns + '.nodeMajor')
+  expect(() => (o.nodeMajor += 1)).to.throw(IS_RO, ns + '.nodeMajor')
   if (withEvents) {
     expect(et && typeof et).to.equal('string', ns + '.eventType')
   } else {
     expect(et).to.equal(undefined, ns + '.eventType')
+    expect(() => (o.eventType = '').to.throw(IS_RO, ns + '.eventType'))
   }
 }
 
@@ -100,6 +103,14 @@ describe('_lib/debug/assert', () => {
         'errors.length in strict')
       expect(all(assert, 'assert')).to.equal(0, 'errors.length')
       expect(trapped.length).to.equal(2 * COUNT, 'trapped.length')
+    })
+
+    it('should set eventType', () => {
+      assert.eventType = 'a'
+      expect(assert.strict.eventType).to.equal('a')
+      assert.strict.eventType = ''
+      expect(assert.eventType).to.equal('')
+      expect(() => assert.fail()).to.throw('Failed')
     })
   })
 
