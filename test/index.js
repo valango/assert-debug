@@ -18,7 +18,7 @@ const COUNT      = 9      //  Number of cases in all()
 const targetPath = path.join(__dirname, '../index.js')
 //  Some stuff works differently before v10.
 const nodeMajor  = 1 * process.version.substring(1).split('.')[0]
-const event = assert.eventType
+const event      = assert.eventType
 
 let errors, trapped = [], ignore = false
 
@@ -54,14 +54,26 @@ const all = (what, label) => {
   return errors.length
 }
 
+const tStat_ = (ns, withEvents) => {
+  const o = ns ? assert[ns] : assert, et = o.eventType
+
+  expect(typeof o.AssertionError).to.equal('function', ns + '.AssertionError')
+  expect(o.strict instanceof Function).to.equal(true, ns + '.strict')
+  expect(o.nodeMajor).to.equal(nodeMajor, ns + '.nodeMajor')
+  if (withEvents) {
+    expect(et && typeof et).to.equal('string', ns + '.eventType')
+  } else {
+    expect(et).to.equal(undefined, ns + '.eventType')
+  }
+}
+
+const testStatics_ = (withEvents) => {
+  tStat_('', withEvents)
+  tStat_('strict', withEvents)
+}
+
 describe('_lib/debug/assert', () => {
-  it('should export statics', () => {
-    expect(typeof assert.AssertionError).to.equal('function')
-    expect(assert.strict instanceof Function).to.equal(true)
-    expect(typeof assert.strict.AssertionError).to.equal('function')
-    expect(event && typeof event).to.equal('string')
-    expect(assert.nodeMajor).to.equal(nodeMajor)
-  })
+  it('should export statics', () => testStatics_(true))
 
   it('should work in default mode', () => {
     expect(all(assert.strict, 'strict')).to.equal(COUNT,
@@ -99,16 +111,10 @@ describe('_lib/debug/assert', () => {
       assert = require('../index')
     })
 
-    it('should export statics', () => {
-      expect(typeof assert.AssertionError).to.equal('function')
-      expect(assert.strict instanceof Function).to.equal(true)
-      expect(typeof assert.strict.AssertionError).to.equal('function')
-      expect(assert.eventType).to.equal(undefined)
-      expect(assert.nodeMajor).to.equal(nodeMajor)
-    })
+    it('should export statics', () => testStatics_(false))
 
     it('should throw', () => {
-      ignore = true
+      ignore  = true
       trapped = []
       expect(all(assert.strict, 'strict')).to.equal(COUNT,
         'errors.length in strict')
