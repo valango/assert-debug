@@ -110,7 +110,7 @@ describe('_lib/debug/assert', () => {
       expect(assert.strict.eventType).to.equal('a')
       assert.strict.eventType = ''
       expect(assert.eventType).to.equal('')
-      expect(() => assert.fail()).to.throw('Failed')
+      expect(() => assert.fail()).to.throw()
     })
   })
 

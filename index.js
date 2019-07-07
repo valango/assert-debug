@@ -62,7 +62,7 @@ if (!inProduction) {
 }
 
 const addStaticsToAPI_ = (api) => {
-  const dscr = Object.create(null)    //  Shield against prototype pollution. 
+  const dscr = Object.create(null)    //  Shield against prototype pollution.
   const ro   = () => ((strict || assert).fail(E_RO))
 
   dscr.enumerable = true
