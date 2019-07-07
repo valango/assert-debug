@@ -4,7 +4,7 @@
 //  This is a local example - in real life, use `require('assert-debug')`!
 exports = module.exports = require('../../index')
 
-if (exports.eventType) {
+if (exports.eventType) {  //  Not present in production mode.
   exports.preventThrows = false
 
   process.on(exports.eventType, (error, cancel) => {
