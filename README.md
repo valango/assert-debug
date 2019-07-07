@@ -3,11 +3,15 @@
 
 **`assert-debug`** helps to trace down the actual cause behind seemingly random assertion failures.
 
+
+Note: If you are a _Travis connossieur_, please help me to fix 
+the [gray badges](https://github.com/valango/assert-debug/issues/1) above!
+
 ## When might you need it?
 Your code may interact with different databases and even with some resources you can't control.
 
 You think you're ready to deploy, and suddenly there is a weird assertion error.
-Sure you'll get the stack trace and even what exactly went wrong - in style like:
+Sure you'll get the stack trace and even what exactly went wrong - in a style like:
 ```
 // + expected - actual
 //   {
@@ -25,9 +29,9 @@ You can expect a long night full of relentless experimenting ahead of you.
 built-in package, with all assertion methods wrapped into _`try-catch`_ blocks.
 A global event will fire, before any assertion actually _throws_.
 
-An event handler will receive the `AssertionError` instance
+An event handler will receive `AssertionError` instance
 before it is actually thrown. You can even prevent it from being thrown.
-But most importantly, by having a **_debugger breakpoint_** set inside handler,
+But most importantly, by having a **_debugger breakpoint_** set inside handler function,
 you will get access to all dynamic context that led to this assertion!
 
 ## Usage
@@ -62,20 +66,16 @@ To get better idea, see [`example/`](https://github.com/valango/assert-debug/tre
 You can assign a different value to change the event to be used. Setting it to _falsey_ value
 disables the whole trapping altogether. The change affects all assertions happening after it.
 
-Such a super-smart fiddling is rarely needed and if you really want a different event type,
-you can declare **`NODE_ASSERTION_EVENT`** environment variable.
+Such a super-smart fiddling is hardly ever needed and if you really want a different event type,
+you can set it by **`NODE_ASSERTION_EVENT`** environment variable.
 
 There is an **_upwards-compatibility bonus_**: current Node.js documentation promotes using `assert.strict`,
-that was still missing in Node.js v8 - but _`assert-debug`_ always exports `strict`, so your v10 code won't
+which was still missing in Node.js v8 - but _`assert-debug`_ always exports `strict`, so your v10 code won't
 crash on v8 because of the _strict_ thing.
 
-### Code patterns
-<a name="style">Depending on your **personal style**</a>, you can share `assert-debug` between code modules
-by just requiring it instead of `assert` or via dependency injection, via global namespace or some other way.
-Maybe you want to use native `assert` in production code - or maybe not.
-
-I suggest to put the following code snippet into `lib/assert.js` or alike in your project and _require_ this
-instead of requiring `assert-debug` directly:
+### Code pattern
+I suggest you put the following code snippet into `lib/assert.js` or alike in your project and _`require`_ this
+instead of `assert-debug` directly:
 
 ```javascript
 exports = module.exports = require('assert-debug')
