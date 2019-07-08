@@ -38,13 +38,16 @@
   },
   "scripts": {
     "clean": "rimraf .nyc-output node_modules reports",
+    "codecov": "codecov",
     "coveralls": "npm i --no-save coveralls &&  && cat reports/lcov.info | coveralls",
     "lint": "eslint --ext .js . test",
+    "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "test": "NODE_ENV=test nyc mocha test/*.js"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",
     "chai": "^4.2.0",
+    "codecov": "^3.5.0",
     "eslint": "^6.0.1",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1",
