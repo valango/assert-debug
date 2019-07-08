@@ -1,4 +1,4 @@
-# assert-debug [![travis](https://img.shields.io/travis/assert-debug/master.svg)](https://travis-ci.org/assert-debug) [![Coverage Status](https://coveralls.io/repos/valango/assert-debug/badge.svg?branch=master&service=github)](https://coveralls.io/github/valango/assert-debug?branch=master)
+# assert-debug [![Build Status](https://travis-ci.org/valango/assert-debug.svg?branch=master)](https://travis-ci.org/valango/assert-debug) [![Coverage Status](https://coveralls.io/repos/valango/assert-debug/badge.svg?branch=master&service=github)](https://coveralls.io/github/valango/assert-debug?branch=master)
 
 
 **`assert-debug`** helps to trace down the actual cause behind seemingly random assertion failures.
