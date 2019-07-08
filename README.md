@@ -1,11 +1,6 @@
 # assert-debug [![Build Status](https://travis-ci.org/valango/assert-debug.svg?branch=master)](https://travis-ci.org/valango/assert-debug) [![Code coverage](https://codecov.io/gh/valango/assert-debug/branch/master/graph/badge.svg)](https://codecov.io/gh/valango/assert-debug)
 
-
 **`assert-debug`** helps to trace down the actual cause behind seemingly random assertion failures.
-
-
-Note: If you are a _Travis connossieur_, please help me to fix 
-the [gray badges](https://github.com/valango/assert-debug/issues/1) above!
 
 ## When might you need it?
 Your code may interact with different databases and even with some resources you can't control.

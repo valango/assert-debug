@@ -37,11 +37,10 @@
     "url": "git://github.com/valango/assert-debug.git"
   },
   "scripts": {
-    "clean": "rimraf .nyc-output node_modules reports",
-    "codecov": "codecov",
-    "coveralls": "npm i --no-save coveralls &&  && cat reports/lcov.info | coveralls",
-    "lint": "eslint --ext .js . test",
+    "clean": "rimraf .nyc-output reports *.lcov",
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
+    "lint": "eslint --ext .js . test",
+    "strip": "npm run clean && rimraf node_modules",
     "test": "NODE_ENV=test nyc mocha test/*.js"
   },
   "devDependencies": {

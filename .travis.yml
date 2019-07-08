@@ -7,10 +7,3 @@ install:
 script:
   - npm test
   - npm run coverage
-# after_success:
-#  - npm run coveralls
-# script:
-#  - "npm test"
-#
-# after_script:
-#  - "test -e ./reports/lcov.info && npm install coveralls^2.11.2 && cat ./reports/lcov.info | coveralls"
