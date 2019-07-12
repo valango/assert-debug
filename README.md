@@ -17,7 +17,7 @@ Sure you'll get the stack trace and even what exactly went wrong - in a style li
 ```
 That's great, but... the cause still remains unclear. And dynamic context is all gone -
 you can't inspect the local variables. You have no idea of how to repeat this failure.
-You can expect a long night full of relentless experimenting ahead of you.
+You can expect a long night full of relentless experimenting ahead of you... or not.
 
 ## What it does?
 **`assert-debug`** module exports all the stuff from original Node.js `assert`
@@ -69,10 +69,10 @@ which was still missing in Node.js v8 - but _`assert-debug`_ always exports `str
 crash on v8 because of the _strict_ thing.
 
 ### Code pattern
-I suggest you put the following code snippet into `lib/assert.js` or alike in your project and _`require`_ this
-instead of `assert-debug` directly:
+Instead of directly `require('assert-debug')` in your application, it may be better to do something like this:
 
 ```javascript
+//  File: lib/assert.js
 exports = module.exports = require('assert-debug')
 
 if (exports.eventType) {  //  Not present in production mode.
@@ -83,9 +83,21 @@ if (exports.eventType) {  //  Not present in production mode.
     if (exports.preventThrows) cancel()
   })
 }
+
+//  Application main module
+const assert = global.$assert = require('./lib/assert')   // Before any other modules.
+...
+
+//  Any other module
+const assert = global.$assert || require('assert')  // Will run OK w/o this package too.
+...
 ```
+This is just an example - use of global namespaces is a matter beyond our scope here.
 
 ## Changes
+### v1.2
+1. Fixes to issues [#2](https://github.com/valango/assert-debug/issues/2)
+and [#3](https://github.com/valango/assert-debug/issues/3) (fundamental enough).
 ### v1.1
 1. In **_production mode_**, `assert-debug` does not change native assert behavior,
 but it still adds _`nodeMajor`_ and _`strict`_ (if needed).
