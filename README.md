@@ -39,16 +39,17 @@ you will get access to all dynamic context that led to this assertion!
 
 ### Example
 ```javascript
-//  In the beginning
+//  In the beginning of application code.
 const assert = require('assert-debug')
-const trap = (error, cancel) => {
-  //  Set up debugger breakpoint inside the code here.
-}
 
-process.on(assert.eventType, trap)
-
-//  Anywhere in your app...
-assert.ok(someCondition)  //  ...or whatever standard assertion method.
+process.on(assert.eventType, (error) => {
+  //  Set up debugger breakpoint inside the code here and 
+  //  inspect the dynamic context of any assertion failure!
+  return 0  //  Has no effect - just for breakpoint.
+})
+  ...
+// Anywhere else in application code.
+assert.fail('Will see u at the breakpoint') //  Or any other assertion function.
 
 ```
 To get better idea, see [`example/`](https://github.com/valango/assert-debug/tree/master/example) directory.
