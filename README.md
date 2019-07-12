@@ -31,11 +31,11 @@ you will get access to all dynamic context that led to this assertion!
 
 ## Usage
 ### Installation
-   `npm i -S assert-debug`
+   `npm i -D assert-debug`
    
    or
    
-   `yarn add -S assert-debug`
+   `yarn add -D assert-debug`
 
 ### Example
 ```javascript
@@ -85,11 +85,13 @@ if (exports.eventType) {  //  Not present in production mode.
   })
 }
 
-//  Application main module
-const assert = global.$assert = require('./lib/assert')   // Before any other modules.
+//  In application main module, before anything else.
+if (process.env.NODE_ENV !== 'production') {
+  global.$assert = require('./lib/assert')
+}
 ...
 
-//  Any other module
+//  In any other module.
 const assert = global.$assert || require('assert')  // Will run OK w/o this package too.
 ...
 ```
